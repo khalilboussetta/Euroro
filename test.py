@@ -16,91 +16,86 @@ cred_dict = {'Guest':0,'Registered':1,'Advanced':2}
 initial = True
 
 def main():
-    # global image_path, image_name
-    # # Sidebar
-    # st.sidebar.header("Parameters")
-    # st.sidebar.markdown("User authorisation")
-    # user = st.sidebar.radio(
-    #     "User Type", options=['User1', 'User2', 'User3'], index=0
-    #     )
+    global image_path, image_name
+    # Sidebar
+    st.sidebar.header("Parameters")
+    st.sidebar.markdown("User authorisation")
+    user = st.sidebar.radio(
+        "User Type", options=['User1', 'User2', 'User3'], index=0
+        )
 
-    # #n_sprites = 1
-    # # Main Page
-    # st.title("Labeling Tool for nonwovens")
-    # st.markdown(
-    #     """
-    #     ## Instructions
-    #     Rate the following image for the presence of nonwovens
+    #n_sprites = 1
+    # Main Page
+    st.title("Labeling Tool for nonwovens")
+    st.markdown(
+        """
+        ## Instructions
+        Rate the following image for the presence of nonwovens
         
-    #     Press next image once you have rated this image to pass to the next one
-    # """
-    # )
+        Press next image once you have rated this image to pass to the next one
+    """
+    )
 
-    # slot = st.empty()
+    slot = st.empty()
 
-    # st.markdown("**Rate this image**")
+    st.markdown("**Rate this image**")
 
-    # rating = st.radio(
-    #     "", options=[0, 1, 2, 3], index=0
-    # )
+    rating = st.radio(
+        "", options=[0, 1, 2, 3], index=0
+    )
 
-    # if st.button("Next"):
-    #     file = open("last_img.txt", "r")
-    #     image_name = file.readline()[:-1]
-    #     image_path = file.readline()[:-1]
-    #     file.close()
+    if st.button("Next"):
+        file = open("last_img.txt", "r")
+        image_name = file.readline()[:-1]
+        image_path = file.readline()[:-1]
+        file.close()
 
-    #     save_rating(rating, user, image_name)
-    #     with st.spinner("Loading image..."):
-    #         image_name, image_path = load_image(
-    #             user=user
-    #         )
+        save_rating(rating, user, image_name)
+        with st.spinner("Loading image..."):
+            image_name, image_path = load_image(
+                user=user
+            )
 
-    #         if image_path is not None:
-    #             file = open("last_img.txt", "w")
-    #             file.write(image_name + '\n')
-    #             file.write(image_path + '\n')
-    #             file.close()
+            if image_path is not None:
+                file = open("last_img.txt", "w")
+                file.write(image_name + '\n')
+                file.write(image_path + '\n')
+                file.close()
 
-    #             fig = Image.open(image_path)
-    #             slot.image(fig, use_column_width = True)
-    #         else:
-    #             slot.markdown("**You have processed all available images. Thank you for helping**")
-    # else:
-    #     with st.spinner("Loading image..."):
-    #         # image_name, image_path = load_image(
-    #         #     user=user
-    #         # )
-    #         file = open("last_img.txt", "r")
-    #         image_name = file.readline()[:-1]
-    #         image_path = file.readline()[:-1]
-    #         file.close()
-    #         fig = Image.open(image_path)
-    #         slot.image(fig, use_column_width=True)
+                fig = Image.open(image_path)
+                slot.image(fig, use_column_width = True)
+            else:
+                slot.markdown("**You have processed all available images. Thank you for helping**")
+    else:
+        with st.spinner("Loading image..."):
+            # image_name, image_path = load_image(
+            #     user=user
+            # )
+            file = open("last_img.txt", "r")
+            image_name = file.readline()[:-1]
+            image_path = file.readline()[:-1]
+            file.close()
+            fig = Image.open(image_path)
+            slot.image(fig, use_column_width=True)
 
 
 
-    # #st.pyplot(fig=fig, bbox_inches="tight")
+    #st.pyplot(fig=fig, bbox_inches="tight")
 
-    # st.markdown("**Debug Section**")
+    st.markdown("**Debug Section**")
 
-    # st.dataframe(user_df)
-    # st.empty()
-    # st.dataframe(img_df)
-    # st.markdown(
-    #     """
-    #     ---
-    #     This application is made with :heart:
+    st.dataframe(user_df)
+    st.empty()
+    st.dataframe(img_df)
+    st.markdown(
+        """
+        ---
+        This application is made with :heart:
          
-    #     Lutz chyetnek fi rasou
-    # """
-    #  )
-    file = open("last_img.txt", "r")
-    image_name = file.readline()[:-1]
-    image_path = file.readline()[:-1]
-    file.close()
-    st.title(image_name)
-    st.title(image_path)
+        Lutz chyetnek fi rasou
+    """
+     )
+
     
 
   
@@ -138,11 +133,11 @@ def load_image(
 
 @st.cache(allow_output_mutation=True)
 def generate_image_dataframe():
-    img_list = glob.glob('**/*.jpg', recursive=True)
+    img_list = glob.glob('*.jpg')
     df = pd.DataFrame(columns=['Name', 'Auth_lvl', 'Ratings', 'Path'])
     for img_path in img_list:
-        name = img_path[5:-4]
-        lvl = int(img_path[3])
+        name = img_path[2:-4]
+        lvl = int(img_path[0])
         df.loc[-1] = [name, lvl, '{}', img_path]  # adding a row
         df.index = df.index + 1  # shifting index
 
