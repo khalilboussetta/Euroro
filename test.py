@@ -4,15 +4,10 @@ from math import sqrt
 from typing import Tuple
 
 # Import modules
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import matplotlib as mpl
 import numpy as np
 import pandas as pd
 import streamlit as st
 from loguru import logger
-from scipy.signal import convolve2d
-import cv2
 from PIL import Image
 import glob
 
