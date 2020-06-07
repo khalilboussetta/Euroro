@@ -67,16 +67,12 @@ def main():
             else:
                 slot.markdown("**You have processed all available images. Thank you for helping**")
     else:
-        with st.spinner("Loading image..."):
-            # image_name, image_path = load_image(
-            #     user=user
-            # )
-            file = open("last_img.txt", "r")
-            image_name = file.readline()[:-1]
-            image_path = file.readline()[:-1]
-            file.close()
-            fig = Image.open(image_path)
-            slot.image(fig, use_column_width=True)
+        file = open("last_img.txt", "r")
+        image_name = file.readline()[:-1]
+        image_path = file.readline()[:-1]
+        file.close()
+        fig = Image.open(image_path)
+        slot.image(fig, use_column_width=True)
 
 
 
